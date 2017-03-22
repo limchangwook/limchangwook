@@ -16,6 +16,9 @@ public class Account {
 	public double getBalance() {
 		return balance;
 	}
+	protected void setBalance(double balance){
+		this.balance= balance;
+	}
 	public Account(double money)
 	{
 		this.balance=money;
