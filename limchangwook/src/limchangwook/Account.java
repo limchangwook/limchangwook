@@ -1,7 +1,10 @@
 package limchangwook;
 
-public class Account {
+public abstract class Account {
 	private double balance;
+	
+	public abstract double getWithdrawableAccount();
+	public abstract void passTime(int term );
 	public void credit(double adds) {
 		balance=balance+adds;
 	}
