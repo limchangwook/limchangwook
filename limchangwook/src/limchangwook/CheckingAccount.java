@@ -1,6 +1,6 @@
 package limchangwook;
 
-public class CheckingAccount extends Account {
+public class CheckingAccount extends Account implements Valuable {
 	private double credit_limit;
 	private double interest;
 	private double loan_interest;
@@ -10,7 +10,7 @@ public class CheckingAccount extends Account {
 		this.interest=interest;
 		this.loan_interest=loan_interest;
 	}
-	@Override public double getWithdrawableAccount(){
+	@Override public double getWithdrawableAmount(){
 		if(getBalance()+50.00<0)
 		{
 			return 0;
@@ -19,19 +19,16 @@ public class CheckingAccount extends Account {
 		
 	}
 	
-	@Override public String debit(double withdraws){
-		if(credit_limit<=withdraws){
-			return "too much";
+	@Override public double debit(double withdraws){
+		if(credit_limit>withdraws){
+			setBalance(this.getBalance()-withdraws);
 		}
-		else{
-			this.setBalance(this.getBalance()-withdraws);
-			return null;
-		}
-		
+		return getBalance();
 	}
+		
 	@Override public void passTime(int term){
 			
-		 setBalance(getBalance()*(Math.pow(1+loan_interest, term)));
+		 setBalance(getBalance()*(Math.pow(1+interest, term)));
 	}
 	public boolean isBankrupted(){
 		if(getBalance()+50.00<0){
@@ -49,6 +46,14 @@ public class CheckingAccount extends Account {
 			setBalance(getBalance()+getBalance()*this.loan_interest);
 			
 		}
+	}
+	@Override
+	public double EstimateValue(int month) {
+		passTime(6);
+		return getBalance()+getBalance()*interest;
+	}
+	public String toString(){
+			return String.format("CheckingAccount_Balance: %f",getBalance());
 	}
 	}
 	

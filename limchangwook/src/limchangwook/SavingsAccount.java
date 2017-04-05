@@ -1,30 +1,40 @@
 package limchangwook;
 
-public class SavingsAccount extends Account {
+public class SavingsAccount extends Account implements Valuable {
 	private double interest;
-	public int totalTerm;
+	private int totalTerm;
 	
 	public SavingsAccount (double balance,double interest){
 		super(balance);
 		this.interest=interest;
+		this.totalTerm = 0;
 	}
-	@Override public String debit(double withdraws){
-		if(totalTerm<12){
-			 return "아직 출금할수 없습니다\n";
+	
+	@Override public double credit(double money) {
+		if(totalTerm >= 12) {
+			return super.credit(money);
 		}
-		else{
-			setBalance(getBalance()-withdraws);
-			return null;
-		}
+		return 0.0;
 	}
-	@Override public double getWithdrawableAccount(){
+
+	@Override public double getWithdrawableAmount(){
+		return (totalTerm>=12) ? getBalance() : 0.0;
+	}
+	
+	@Override public void passTime(int term){
+		if(totalTerm < 12 && totalTerm + term >= 12) {
+			setBalance( getBalance()*(Math.pow(1+interest, totalTerm)));
+		}
+		totalTerm+=term;
+	}
+
+	@Override
+	public double EstimateValue(int month) {
+		setBalance( getBalance()*(Math.pow(1+interest, month)));
+		
 		return getBalance();
 	}
-	@Override public void passTime(int term){
-		totalTerm+=term;
-		if(totalTerm==12)
-		{
-		setBalance( getBalance()*(Math.pow(1+interest, totalTerm)));
-		}
-	}
+	public String toString(){
+		return String.format("SavingsAccount_Balance: %f",getBalance());
+}
 }

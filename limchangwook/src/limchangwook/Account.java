@@ -3,22 +3,26 @@ package limchangwook;
 public abstract class Account {
 	private double balance;
 	
-	public abstract double getWithdrawableAccount();
+	public abstract double getWithdrawableAmount();
 	public abstract void passTime(int term );
-	public void credit(double adds) {
-		balance=balance+adds;
-	}
-	public String debit(double withdraws) {
-		if(balance<withdraws) {
-			return "Debit amount exceeded account balance";
-		} else {
-			balance=balance-withdraws;
-			return null;
+	public double credit(double adds) {
+		if(adds >= 0) {
+			balance=balance+adds;
+			return adds;
 		}
+		return 0;
+	}
+	public double debit(double withdraws) {
+		if(withdraws > 0 && withdraws <= getWithdrawableAmount()){
+			balance = balance - withdraws;
+			return withdraws;
+		}
+		return 0;
 	}
 	public double getBalance() {
 		return balance;
 	}
+	
 	protected void setBalance(double balance){
 		this.balance= balance;
 	}
