@@ -12,12 +12,8 @@ public abstract class Account {
 		}
 		return 0;
 	}
-	public double debit(double withdraws) {
-		if(withdraws > 0 && withdraws <= getWithdrawableAmount()){
-			balance = balance - withdraws;
-			return withdraws;
-		}
-		return 0;
+	public void debit(double withdraws) throws Exception{
+			balance=balance - withdraws;
 	}
 	public double getBalance() {
 		return balance;

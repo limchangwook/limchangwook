@@ -16,6 +16,19 @@ public class SavingsAccount extends Account implements Valuable {
 		}
 		return 0.0;
 	}
+	@Override public void debit(double withdraws)throws Exception{
+		if(withdraws<0){
+			throw new Exception("음수입력!\n");
+		} else if(this.getWithdrawableAmount() < withdraws) {
+			throw new Exception("한도초과\n");
+		}else if(totalTerm<12){
+			throw new Exception("아직 출금할수 없습니다\n");
+		}
+			
+		if(withdraws > 0 && withdraws <= getWithdrawableAmount()){
+			setBalance(getBalance() - withdraws);
+		}
+	}
 
 	@Override public double getWithdrawableAmount(){
 		return (totalTerm>=12) ? getBalance() : 0.0;

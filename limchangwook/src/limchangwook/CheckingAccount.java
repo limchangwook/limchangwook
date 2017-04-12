@@ -19,11 +19,15 @@ public class CheckingAccount extends Account implements Valuable {
 		
 	}
 	
-	@Override public double debit(double withdraws){
-		if(credit_limit>withdraws){
-			setBalance(this.getBalance()-withdraws);
+	@Override public void debit(double withdraws)throws Exception{
+		if(withdraws<0){
+			throw new Exception("음수입력!\n");
+		} else if(this.getWithdrawableAmount() < withdraws) {
+			throw new Exception("한도초과\n");
+		} else{ 
+			 
+		setBalance(getBalance()-withdraws);
 		}
-		return getBalance();
 	}
 		
 	@Override public void passTime(int term){
