@@ -19,18 +19,18 @@ public class SavingsAccount extends Account implements Valuable {
 	@Override public void debit(double withdraws)throws Exception{
 		if(withdraws<0){
 			throw new Exception("음수입력!\n");
-		} else if(this.getWithdrawableAmount() < withdraws) {
+		} else if(this.getWithdrawableAccount() < withdraws) {
 			throw new Exception("한도초과\n");
 		}else if(totalTerm<12){
 			throw new Exception("아직 출금할수 없습니다\n");
 		}
 			
-		if(withdraws > 0 && withdraws <= getWithdrawableAmount()){
+		if(withdraws > 0 && withdraws <= getWithdrawableAccount()){
 			setBalance(getBalance() - withdraws);
 		}
 	}
 
-	@Override public double getWithdrawableAmount(){
+	@Override public double getWithdrawableAccount(){
 		return (totalTerm>=12) ? getBalance() : 0.0;
 	}
 	
@@ -40,12 +40,16 @@ public class SavingsAccount extends Account implements Valuable {
 		}
 		totalTerm+=term;
 	}
-
+	@Override public void passTime(){
+			setBalance( getBalance()*(Math.pow(1+interest, 1)));
+	}
 	@Override
 	public double EstimateValue(int month) {
-		setBalance( getBalance()*(Math.pow(1+interest, month)));
-		
-		return getBalance();
+		return getBalance()*(Math.pow(1+interest, month));
+	}
+	@Override
+	public double EstimateValue() {
+		return getBalance()*(Math.pow(1+interest, 1));
 	}
 	public String toString(){
 		return String.format("SavingsAccount_Balance: %f",getBalance());

@@ -12,6 +12,11 @@ public class Human implements Valuable{
 		
 		return Double.POSITIVE_INFINITY;
 	}
+	@Override
+	public double EstimateValue() {
+		
+		return Double.POSITIVE_INFINITY;
+	}
 	public String toString(){
 		return String.format("Human name: %s\nregistered age: %d",name,age);
 }
